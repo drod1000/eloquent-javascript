@@ -1,7 +1,5 @@
-import Ancestry from "./ancestry.js";
-
+const Ancestry = require("./ancestry.js");;
 const ancestry = JSON.parse(Ancestry.ANCESTRY_FILE);
-console.log(ancestry.length);
 
 //Filter Demo
 function filter(array, test) {
