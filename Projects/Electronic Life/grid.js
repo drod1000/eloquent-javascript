@@ -13,11 +13,11 @@ Grid.prototype.isInside = function(vector) {
 }
 
 Grid.prototype.get = function(vector) {
-  return this.space[vector.x][vector.y];
+  return this.space[vector.y][vector.x];
 }
 
 Grid.prototype.set = function(vector, value) {
-  this.space[vector.x][vector.y] = value;
+  this.space[vector.y][vector.x] = value;
 }
 
 module.exports = Grid;
