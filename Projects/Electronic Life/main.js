@@ -33,3 +33,26 @@ for (var i = 0; i < 5; i++) {
   world.turn();
   console.log(world.toString());
 }
+
+var valley = new LifelikeWorld(
+  ["############################",
+   "#####                 ######",
+   "##   ***                **##",
+   "#   *##**         **  O  *##",
+   "#    ***     O    ##**    *#",
+   "#       O         ##***    #",
+   "#                 ##**     #",
+   "#   O       #*             #",
+   "#*          #**       O    #",
+   "#***        ##**    O    **#",
+   "##****     ###***       *###",
+   "############################"],
+  {"#": Wall,
+   "O": PlantEater,
+   "*": Plant}
+);
+
+for (var i = 0; i < 5; i++) {
+  valley.turn();
+  console.log(valley.toString());
+}

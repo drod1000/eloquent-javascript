@@ -1,4 +1,5 @@
 const World = require("./world.js");
+const View = require("./view.js");
 
 function LifelikeWorld(map, legend) {
   World.call(this, map, legend);
