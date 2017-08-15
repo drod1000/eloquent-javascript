@@ -1,3 +1,5 @@
+const Vector = require("./vector.js");
+
 function Grid(width, height) {
   this.width = width;
   this.height = height;

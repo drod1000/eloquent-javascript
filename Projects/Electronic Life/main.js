@@ -29,3 +29,8 @@ console.log(grid.get(new Vector(1, 1)));
 
 var world = new World(plan, legend);
 console.log(world.toString());
+
+for (var i = 0; i < 5; i++) {
+  world.turn();
+  console.log(world.toString());
+}
