@@ -4,6 +4,7 @@ const World = require("./world.js");
 const Wall = require("./wall.js");
 const BouncingCritter = require("./bouncing_critter.js");
 const WallFollower = require("./wallfollower.js");
+const LifelikeWorld = require("./lifelikeWorld");
 
 const plan = [
   "############",
