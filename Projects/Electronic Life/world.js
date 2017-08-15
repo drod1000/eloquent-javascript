@@ -1,5 +1,6 @@
 const Vector = require("./vector.js");
 const Grid = require("./grid.js");
+const View = require("./view.js");
 
 //Legend contains ch and object associated with it
 function elementFromChar(legend, ch) {
