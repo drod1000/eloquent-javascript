@@ -6,6 +6,7 @@ const BouncingCritter = require("./bouncing_critter.js");
 const WallFollower = require("./wallfollower.js");
 const LifelikeWorld = require("./lifelikeWorld");
 const Plant = require("./plant.js");
+const PlantEater = require("./planteater.js");
 
 const plan = [
   "############",
