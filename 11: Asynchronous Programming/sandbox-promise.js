@@ -1,5 +1,6 @@
 var bigOak = require("./crow-tech").bigOak;
 var defineRequestType = require("./crow-tech").defineRequestType;
+var everywhere = require("./crow-tech").everywhere;
 
 function storage(nest, name) {
   return new Promise(resolve => {
@@ -56,6 +57,35 @@ function availableNeighbors(nest) {
   });
 }
 
-availableNeighbors(bigOak).then(response => {
-  console.log(response);
-})
+// availableNeighbors(bigOak).then(response => {
+//   console.log(response);
+// })
+
+// import {everywhere} from "./crow-tech";
+
+
+//BEGIN NETWORKING
+everywhere(nest => {
+  nest.state.gossip = [];
+});
+
+function sendGossip(nest, message, exceptFor = null) {
+  //Documents that gossip in current nest
+  nest.state.gossip.push(message);
+  for (let neighbor of nest.neighbors) {
+    if (neighbor == exceptFor) continue;
+    //Send to every neighbor in the nest except the one who sent it
+    request(nest, neighbor, "gossip", message);
+  }
+}
+
+requestType("gossip", (nest, message, source) => {
+  //If gossip already exists in this nest ignore it
+  if (nest.state.gossip.includes(message)) return;
+  console.log(`${nest.name} received gossip '${
+               message}' from ${source}`);
+  sendGossip(nest, message, source);
+});
+
+sendGossip(bigOak, "Kids with airgun in the park");
+//END NETWORKING
