@@ -89,3 +89,27 @@ requestType("gossip", (nest, message, source) => {
 
 sendGossip(bigOak, "Kids with airgun in the park");
 //END NETWORKING
+
+//BEGIN MESSAGE ROUTING
+requestType("connections", (nest, {name, neighbors}, source) => {
+  let connections = nest.state.connections;
+  //If connections haven't changed stop
+  if (JSON.stringify(connections.get(name)) == JSON.stringify(neighbors)) return;
+  //If connections have changed, set and broadcast
+  connections.set(name, neighbors);
+  broadcastConnections(nest, name, source);
+});
+
+function broadcastConnections(nest, name, exceptFor = null) {
+  for (let neighbor of nest.neighbors) {
+    if (neighbor == exceptFor) continue;
+    request(nest, neighbor, "connections", { name,neighbors: nest.state.connections.get(name)});
+  }
+}
+
+everywhere(nest => {
+  nest.state.connections = new Map;
+  nest.state.connections.set(nest.name, nest.neighbors);
+  broadcastConnections(nest, nest.name);
+});
+//END MESSAGE ROUTING
