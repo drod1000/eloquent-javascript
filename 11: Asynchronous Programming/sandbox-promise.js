@@ -112,4 +112,44 @@ everywhere(nest => {
   nest.state.connections.set(nest.name, nest.neighbors);
   broadcastConnections(nest, nest.name);
 });
+
+function findRoute(from, to, connections) {
+  let work = [{at: from, via: null}];
+  for (let i = 0; i < work.length; i++) {
+    let {at, via} = work[i];
+    //Iterates through connections for at (from the first time)
+    for (let next of connections.get(at) || []) {
+      //If target is directly connected via their connections return next path
+      if (next == to) return via;
+      //Checks if what's currently next exists in work list as at
+      //If it doesn't it adds it to work as at
+      if (!work.some(w => w.at == next)) {
+        //Adds paths to check in order that we come across them
+        //TODO: still unclear on what via || next does
+        work.push({at: next, via: via || next});
+      }
+    }
+  }
+  //If we get here there is no route
+  return null;
+}
+
+function routeRequest(nest, target, type, content) {
+  if (nest.neighbors.includes(target)) {
+    return request(nest, target, type, content);
+  } else {
+    let via = findRoute(nest.name, target,
+                        nest.state.connections);
+    if (!via) throw new Error(`No route to ${target}`);
+    return request(nest, via, "route",
+                   {target, type, content});
+  }
+}
+
+requestType("route", (nest, {target, type, content}) => {
+  return routeRequest(nest, target, type, content);
+});
+
+routeRequest(bigOak, "Church Tower", "note",
+             "Incoming jackdaws!");
 //END MESSAGE ROUTING
